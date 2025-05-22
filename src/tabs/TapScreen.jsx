@@ -1,4 +1,4 @@
-// TapScreen.jsx — вкладка с кликом по персонажу, монетами, лимитом и доходом с анимацией +1 и блоком прибыли
+// TapScreen.jsx — главный экран: крупный хомяк по центру, монеты сверху, анимация +1, доход справа сверху
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { db } from "../firebase";
@@ -14,7 +14,7 @@ export default function TapScreen() {
   const [loaded, setLoaded] = useState(false);
   const [showPlusOne, setShowPlusOne] = useState(false);
 
-  const furryImage = "https://newday.kherson.ua/wp-content/uploads/2024/06/image-4.png";
+  const hamsterImage = "https://newday.kherson.ua/wp-content/uploads/2024/06/image-4.png";
 
   useEffect(() => {
     const tg = window?.Telegram?.WebApp?.initDataUnsafe;
@@ -76,11 +76,17 @@ export default function TapScreen() {
   };
 
   return (
-    <div className="text-center flex flex-col items-center justify-center relative">
-      {/* Блок справа сверху */}
-      <div className="absolute top-2 right-3 bg-[#2c2c2e] border border-yellow-500 rounded-xl px-3 py-1 flex items-center gap-1 text-sm shadow-md">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Coin_icon.png/32px-Coin_icon.png" className="w-4 h-4" alt="coin" />
+    <div className="relative flex flex-col items-center justify-center min-h-[70vh] text-center">
+      {/* Доход справа сверху */}
+      <div className="absolute top-2 right-3 bg-[#2c2c2e] border border--500 rounded-xl px-3 py-1 flex items-center gap-1 text-sm shadow-md">
+        <img src="https://pngimg.com/uploads/coin/coin_PNG36907.png" className="w-4 h-4" alt="coin" />
         <span className="text-green-400 font-semibold">+{Math.floor(coinsPerHour)} в час</span>
+      </div>
+
+      {/* Монеты сверху по центру */}
+      <div className="mb-4 mt-4 text-yellow-300 font-bold text-lg flex items-center gap-2">
+        <img src="https://pngimg.com/uploads/coin/coin_PNG36907.png" className="w-5 h-5" alt="coin" />
+        {Math.floor(coins)}
       </div>
 
       {/* Анимация +1 */}
@@ -90,28 +96,28 @@ export default function TapScreen() {
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: -40 }}
             exit={{ opacity: 0, y: -60 }}
-            className="absolute text-yellow-400 text-xl font-bold"
+            className="absolute text-yellow-400 text-2xl font-bold"
           >
             +1
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Картинка персонажа */}
+      {/* Крупная картинка хомяка */}
       <motion.div
         whileTap={{ scale: 0.95 }}
         onClick={handleClick}
-        className="w-48 h-48 rounded-full border-4 border-[#6c5ce7] p-1 bg-gradient-to-b from-[#1e1e1e] to-[#2c2c2e] shadow-xl cursor-pointer"
+        className="w-64 h-64 rounded-full border-4 border-[#6c5ce7] p-1 bg-gradient-to-b from-[#1e1e1e] to-[#2c2c2e] shadow-xl cursor-pointer"
       >
         <img
-          src={furryImage}
+          src={hamsterImage}
           alt="tap"
           className="w-full h-full object-cover rounded-full"
         />
       </motion.div>
 
-      {/* Инфо */}
-      <div className="text-center mt-4">
+      {/* Остаток кликов и таймер */}
+      <div className="mt-4">
         <div>🔘 Осталось тапов: {clicksLeft}</div>
         <div className="text-sm text-gray-400">
           ⏳ Обновление через: {Math.floor((nextReset - Date.now()) / 1000)} сек.
