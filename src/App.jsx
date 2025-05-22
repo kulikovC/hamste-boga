@@ -16,6 +16,18 @@ const TABS = [
 export default function App() {
   const [selectedTab, setSelectedTab] = useState("home");
 
+  // Добавлено: ник и аватар из Telegram
+  const [username, setUsername] = useState("Вы");
+  const [avatar, setAvatar] = useState("");
+
+  useEffect(() => {
+    const tg = window?.Telegram?.WebApp?.initDataUnsafe;
+    if (tg?.user) {
+      setUsername(tg.user.username || tg.user.first_name || "Вы");
+      setAvatar(tg.user.photo_url || "");
+    }
+  }, []);
+
   const renderTab = () => {
     switch (selectedTab) {
       case "home":
@@ -33,7 +45,14 @@ export default function App() {
 
   return (
     <div className="bg-[#1c1c1e] text-white min-h-screen flex flex-col justify-between">
-      <div className="p-4 flex-grow">{renderTab()}</div>
+      <div className="p-4 flex-grow">
+        {/* Добавлено: верхний левый угол с ником и аватаркой */}
+        <div className="flex items-center gap-2 mb-3">
+          {avatar && <img src={avatar} alt="avatar" className="w-8 h-8 rounded-full" />}
+          <span className="text-sm text-white">@{username}</span>
+        </div>
+        {renderTab()}
+      </div>
       <div className="bg-[#2b2b2e] border-t border-gray-700 p-2 flex justify-around">
         {TABS.map((tab) => (
           <button
