@@ -1,4 +1,3 @@
-// TapScreen.jsx — вкладка с кликом по персонажу, монетами, лимитом и доходом
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { db } from "../firebase";
@@ -9,19 +8,17 @@ export default function TapScreen() {
   const [coinsPerHour, setCoinsPerHour] = useState(0);
   const [clicksLeft, setClicksLeft] = useState(7000);
   const [nextReset, setNextReset] = useState(Date.now() + 3600000);
-  const [avatar, setAvatar] = useState("");
-  const [username, setUsername] = useState("Вы");
   const [userId, setUserId] = useState(null);
+  const [username, setUsername] = useState("Вы");
   const [loaded, setLoaded] = useState(false);
 
-  const furryImage = "https://e7.pngegg.com/pngimages/815/828/png-clipart-cat-demon-dog-canidae-cat-legendary-creature-mammal.png";
+  const furryImage = "https://newday.kherson.ua/wp-content/uploads/2024/06/image-4.png";
 
   useEffect(() => {
     const tg = window?.Telegram?.WebApp?.initDataUnsafe;
     if (tg?.user) {
       setUsername(tg.user.username || tg.user.first_name || "Вы");
       setUserId(tg.user.id.toString());
-      if (tg.user.photo_url) setAvatar(tg.user.photo_url);
     }
   }, []);
 
@@ -76,21 +73,18 @@ export default function TapScreen() {
 
   return (
     <div className="text-center">
-      <div className="flex items-center justify-between px-4 mb-2">
-        <div className="flex items-center gap-2">
-          {avatar && <img src={avatar} alt="avatar" className="w-10 h-10 rounded-full" />}
-          <span>@{username}</span>
-        </div>
-        <div className="text-yellow-400 font-semibold">📈 {Math.floor(coinsPerHour)}/ч</div>
-      </div>
-
-      <motion.img
-        src={furryImage}
-        alt="tap"
-        className="mx-auto w-40 h-40 cursor-pointer rounded-xl mb-4"
+      {/* Новый стиль персонажа с обводкой */}
+      <motion.div
         whileTap={{ scale: 0.95 }}
         onClick={handleClick}
-      />
+        className="w-36 h-36 mx-auto rounded-full border-4 border-[#6c5ce7] p-1 bg-gradient-to-b from-[#1e1e1e] to-[#2c2c2e] shadow-lg cursor-pointer mb-4"
+      >
+        <img
+          src={furryImage}
+          alt="tap"
+          className="w-full h-full object-cover rounded-full"
+        />
+      </motion.div>
 
       <div className="text-center">
         <div>💰 Монет: {Math.floor(coins)}</div>
@@ -102,3 +96,4 @@ export default function TapScreen() {
     </div>
   );
 }
+
