@@ -4,6 +4,7 @@ import { db } from "../firebase";
 import {
   doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs
 } from "firebase/firestore";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export default function FriendsTab() {
