@@ -4,7 +4,6 @@ import { db } from "../firebase";
 import {
   doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs
 } from "firebase/firestore";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export default function FriendsTab() {
@@ -72,6 +71,7 @@ export default function FriendsTab() {
       {!referrer ? (
         <div className="flex gap-2">
           <Input
+            className="bg-[#1c1c1e] border border-gray-700 px-3 py-2 rounded-md text-sm w-full"
             placeholder="Введите код друга"
             value={refCodeInput}
             onChange={(e) => setRefCodeInput(e.target.value)}
